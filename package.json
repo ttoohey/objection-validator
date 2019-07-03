@@ -1,0 +1,48 @@
+{
+  "name": "objection-validator",
+  "version": "0.0.0",
+  "description": "An Objection.js model mixin plugin that provides an alternate system for validation",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "babel -d lib src",
+    "clean": "rm -rf lib",
+    "lint": "eslint --ext .js --ext .json src",
+    "prepare": "yarn run clean && yarn run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "BABEL_DISABLE_CACHE=1 nodemon -w src -e js,graphql -x 'babel -d lib src'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttoohey/objection-validator.git"
+  },
+  "keywords": [
+    "validation",
+    "objection",
+    "knex",
+    "orm"
+  ],
+  "author": "Gency Digital <hello@gency.com.au>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ttoohey/objection-validator/issues"
+  },
+  "homepage": "https://github.com/ttoohey/objection-validator#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^5.0.0",
+    "prettier": "^1.18.2"
+  },
+  "peerDependencies": {
+    "objection-db-errors": "*",
+    "validator-creator": "*"
+  }
+}
