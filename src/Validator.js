@@ -54,7 +54,9 @@ export default function Validator(Model) {
         this.$beforeValidatorValidate(this.constructor.rules, json, opts) ||
         this.constructor.rules;
       const validate = createValidator(rules);
-      const [validation] = await validate(this.$toJson());
+      json = this.$toJson()
+      const jsonFormatted = this.$formatJson(json);
+      const [validation] = await validate(jsonFormatted);
       if (validation.length > 0) {
         throw new ValidatorError(
           validation,
