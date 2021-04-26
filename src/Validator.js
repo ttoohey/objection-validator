@@ -41,12 +41,14 @@ export default function Validator(Model) {
           ...this.$toJson()
         });
       }
-      await this.$validatorValidate(this.$toJson(), null, queryContext);
+      const json = await this.$validatorToJson(null, queryContext);
+      await this.$validatorValidate(json, null, queryContext);
     }
 
     async $beforeUpdate(opt, queryContext) {
       await super.$beforeUpdate(opt, queryContext);
-      await this.$validatorValidate(this.$toJson(), opt, queryContext);
+      const json = await this.$validatorToJson(opt, queryContext);
+      await this.$validatorValidate(json, opt, queryContext);
     }
 
     async $validatorValidate(json, opt, queryContext) {
@@ -58,9 +60,7 @@ export default function Validator(Model) {
           queryContext
         ) || this.constructor.rules;
       const validate = createValidator(rules);
-      json = this.$toJson();
-      const jsonFormatted = this.$formatJson(json);
-      const [validation] = await validate(jsonFormatted);
+      const [validation] = await validate(json);
       if (validation.length > 0) {
         throw new ValidatorError(
           validation,
@@ -68,6 +68,10 @@ export default function Validator(Model) {
         );
       }
       this.$afterValidatorValidate(json, opt, queryContext);
+    }
+
+    $validatorToJson() {
+      return this.$toJson();
     }
 
     $beforeValidatorValidate() {}

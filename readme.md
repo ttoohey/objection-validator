@@ -47,6 +47,14 @@ to ensure the attribute is validated even if not supplied.
 
 Before validation hook. Allows modifying the `rules` object before processing.
 
+`json` contains the external representation of the model attributes to validate.
+
+`modelOptions` contains update options if an update operation is being performed.
+For insert operations it is null. [details](https://vincit.github.io/objection.js/api/types/#type-modeloptions)
+
+`queryContext` contains the query context and transaction instance.
+[details](https://vincit.github.io/objection.js/api/query-builder/other-methods.html#context)
+
 Return `rules` or `undefined` to make no change.
 
 Return a new rule collection object to alter the rules.
@@ -58,6 +66,11 @@ After validation hook
 #### `$validatorValidate(json, modelOptions, queryContext)`
 
 Called automatically from `Model.$beforeInsert()` and `Model.$beforeUpdate()`
+
+#### `$validatorToJson(modelOptions, queryContext)`
+
+Allows to override the json data to validate. The default implementation
+returns the model's `$toJson()` response.
 
 ## class ValidatorError
 
