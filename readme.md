@@ -43,7 +43,7 @@ apply to each field.
 Set default values for model attributes during an insert. This is a useful way
 to ensure the attribute is validated even if not supplied.
 
-#### `$beforeValidatorValidate(rules, json, opts)`
+#### `$beforeValidatorValidate(rules, json, modelOptions, queryContext)`
 
 Before validation hook. Allows modifying the `rules` object before processing.
 
@@ -51,11 +51,11 @@ Return `rules` or `undefined` to make no change.
 
 Return a new rule collection object to alter the rules.
 
-#### `$afterValidatorValidate(json, opts)`
+#### `$afterValidatorValidate(json, modelOptions, queryContext)`
 
 After validation hook
 
-#### `$validatorValidate(json, opts)`
+#### `$validatorValidate(json, modelOptions, queryContext)`
 
 Called automatically from `Model.$beforeInsert()` and `Model.$beforeUpdate()`
 

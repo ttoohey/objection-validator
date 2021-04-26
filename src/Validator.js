@@ -7,7 +7,7 @@ import {
 import ValidatorError from "./ValidatorError";
 
 export default function Validator(Model) {
-  const BaseModel = DBErrors(Model)
+  const BaseModel = DBErrors(Model);
   return class extends BaseModel {
     static defaultAttributes = {};
     static rules = {};
@@ -33,28 +33,32 @@ export default function Validator(Model) {
       }
     }
 
-    async $beforeInsert(opts) {
-      await super.$beforeInsert(arguments);
+    async $beforeInsert(queryContext) {
+      await super.$beforeInsert(queryContext);
       if (this.constructor.defaultAttributes) {
         this.$setJson({
           ...this.constructor.defaultAttributes,
           ...this.$toJson()
         });
       }
-      await this.$validatorValidate(this.$toJson(), opts);
+      await this.$validatorValidate(this.$toJson(), null, queryContext);
     }
 
-    async $beforeUpdate(opts) {
-      await super.$beforeUpdate(arguments);
-      await this.$validatorValidate(this.$toJson(), opts);
+    async $beforeUpdate(opt, queryContext) {
+      await super.$beforeUpdate(opt, queryContext);
+      await this.$validatorValidate(this.$toJson(), opt, queryContext);
     }
 
-    async $validatorValidate(json, opts) {
+    async $validatorValidate(json, opt, queryContext) {
       const rules =
-        this.$beforeValidatorValidate(this.constructor.rules, json, opts) ||
-        this.constructor.rules;
+        this.$beforeValidatorValidate(
+          this.constructor.rules,
+          json,
+          opt,
+          queryContext
+        ) || this.constructor.rules;
       const validate = createValidator(rules);
-      json = this.$toJson()
+      json = this.$toJson();
       const jsonFormatted = this.$formatJson(json);
       const [validation] = await validate(jsonFormatted);
       if (validation.length > 0) {
@@ -63,7 +67,7 @@ export default function Validator(Model) {
           `Did not satisfy validator rules for ${this.constructor.name}`
         );
       }
-      this.$afterValidatorValidate(json, opts);
+      this.$afterValidatorValidate(json, opt, queryContext);
     }
 
     $beforeValidatorValidate() {}
