@@ -1,6 +1,6 @@
 {
   "name": "objection-validator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An Objection.js model mixin plugin that provides an alternate system for validation",
   "main": "lib/index.js",
   "files": [
